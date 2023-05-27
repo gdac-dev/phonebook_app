@@ -123,11 +123,45 @@ def to_update():
 
             show()
 
-        b_confirm = Button(frame_down, text="Confirm", width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'), command=confirm())
+        b_confirm = Button(frame_down, text="Confirm", width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'), command=confirm)
         b_confirm.place(x=290, y=110)
     
     except IndexError:
         messagebox.showerror('Error', 'Select one item from the table')
+
+def to_remove():
+    try:
+        tree_data = tree.focus()
+        tree_dictionary = tree.item(tree_data)
+        tree_list = tree_dictionary['values']
+        tree_telephone = str(tree_list[2])
+
+        remove(tree_telephone)
+
+        messagebox.showinfo('Success', 'Data has been deleted sucessfully !')
+
+        for widget in frame_table.winfo_children():
+            widget.destroy()
+
+        show()
+
+    except IndexError:
+        messagebox.showerror('Error', 'Select one item from the table')
+
+def to_search():
+    telephone = e_search.get()
+
+    data = search(telephone)
+
+    def delete_command():
+        tree.delete(*tree.get_children())
+
+    delete_command()
+
+    for item in data:
+        tree.insert('', 'end', values = item)
+
+    e_search.delete(0, 'end')
 
 #frame_up widgets
 
@@ -165,13 +199,13 @@ e_email = Entry(frame_down, width=25, justify='left', highlightthickness=1, reli
 e_email.place(x=80, y=110)
 
 #search button
-b_search = Button(frame_down, text="Search", height=1, bg=co2, fg=co0, font=('Ivy 8 bold'))
+b_search = Button(frame_down, text="Search", height=1, bg=co0, fg=co1, font=('Ivy 8 bold'), command=to_search)
 b_search.place(x=290, y=20)
 e_search = Entry(frame_down, width=16, justify='left', font=('Ivy', 11), highlightthickness=1, relief="solid")
 e_search.place(x=347, y=20)
 
 #view button
-b_view = Button(frame_down, text="View",width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'))
+b_view = Button(frame_down, text="View",width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'), command=show)
 b_view.place(x=290, y=50)
 
 #Add button
@@ -183,7 +217,7 @@ b_update = Button(frame_down, text="Update", width=10, height=1, bg=co2, fg=co0,
 b_update.place(x=400, y=80)
 
 #Delete button
-b_delete = Button(frame_down, text="Delete", width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'))
+b_delete = Button(frame_down, text="Delete", width=10, height=1, bg=co2, fg=co0, font=('Ivy 8 bold'), command=to_remove)
 b_delete.place(x=400, y=110)
 
 window.mainloop() 

@@ -27,7 +27,7 @@ def remove(i):
     new_list = []
     telephone = i
 
-    with open('data.csv') as file:
+    with open('data.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             new_list.append(row)
